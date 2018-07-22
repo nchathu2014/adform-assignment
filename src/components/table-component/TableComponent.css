@@ -1,0 +1,14 @@
+.active{
+    background-color: darkgreen !important;
+    color: white;
+}
+
+.in-active{
+    background-color: red;
+    color: white;
+}
+
+.table-header{
+    background-color: darkcyan !important;
+    color: white;
+}

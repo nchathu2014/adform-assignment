@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 
 class TableComponent extends Component {
 
-    constructor(props){
+    constructor(props) {
         super(props);
     }
 
@@ -36,7 +36,6 @@ class TableComponent extends Component {
     }
 
 
-
     /**
      * Render table data
      * @param list
@@ -64,8 +63,8 @@ class TableComponent extends Component {
      * Render table structure
      * @returns {*}
      */
-    renderTable(){
-        return(
+    renderTable() {
+        return (
             <div className="table-container">
                 <table className="table table-striped">
                     <thead className="table-header">
@@ -96,11 +95,11 @@ class TableComponent extends Component {
     }
 
     render() {
-        console.log('&&&&',this.props.tableData)
+        console.log('&&&&', this.props.tableData)
         return (
-           <div>
-               {this.renderTable()}
-           </div>
+            <div>
+                {this.renderTable()}
+            </div>
         );
     }
 }

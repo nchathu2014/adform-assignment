@@ -2,10 +2,8 @@ import React, {Component} from 'react';
 import SearchComponent from './components/search-component/SearchComponent';
 import TableComponent from "./components/table-component/TableComponent";
 import data from './data/data-list';
-import logo from './logo.svg';
-import _ from 'lodash';
 import './App.css';
-
+import moment from 'moment';
 
 class App extends Component {
 
@@ -14,9 +12,14 @@ class App extends Component {
         this.state = {
             tableData: [],
             searchValue: '',
-            startDate:null,
-            endDate:null
+            flagSearchByName:false,
+            startDate: null,
+            flagSearchByStartDate:false,
+            flagSearchByEndDate:false,
+            flagInitial:true,
+            endDate: null
         };
+        this.TIME_OUT=1000;
         this.initApp();
     }
 
@@ -24,15 +27,10 @@ class App extends Component {
      * Bind functions to `this` object
      */
     initApp() {
-        // this.renderTable = this.renderTable.bind(this);
+
         this.fetchDataFromAPI = this.fetchDataFromAPI.bind(this);
         this.handleStartDate = this.handleStartDate.bind(this);
         this.handleEndDate = this.handleEndDate.bind(this);
-
-        //this.processTableData = this.processTableData.bind(this);
-        //this.checkActiveness = this.checkActiveness.bind(this);
-        // this.getCurrentDate = this.getCurrentDate.bind(this);
-        // this.processBudgetInUSD = this.processBudgetInUSD.bind(this);
     }
 
     /**
@@ -41,9 +39,9 @@ class App extends Component {
     fetchDataFromAPI() {
         setTimeout(() => {
             this.setState({
-                tableData:  data
+                tableData: data
             })
-        }, 1000)
+        }, this.TIME_OUT)
     }
 
     componentWillMount() {
@@ -56,24 +54,40 @@ class App extends Component {
      * Callback from SearchComponent with the searched value
      * @param name
      */
-    onChange(name='') {
+    onChange(name = '') {
         this.setState({
-            searchValue : name
+            searchValue: name,
+            flagInitial:false,
+            flagSearchByName:true,
+            flagSearchByStartDate:false,
+            flagSearchByEndDate:false,
         });
     }
 
-    handleStartDate(startDate){
+    handleStartDate(startDate) {
         console.log(startDate)
         this.setState({
-            startDate
+            startDate,
+            flagInitial:false,
+            flagSearchByName:false,
+            flagSearchByStartDate:true,
+            flagSearchByEndDate:false
         });
     }
 
-    handleEndDate(endDate){
+    handleEndDate(endDate) {
         console.log(endDate)
         this.setState({
-            endDate
+            endDate,
+            flagInitial:false,
+            flagSearchByName:false,
+            flagSearchByStartDate:false,
+            flagSearchByEndDate:true
         });
+    }
+
+    filterByName(dataList){
+
     }
 
 
@@ -85,10 +99,25 @@ class App extends Component {
         if (this.state.tableData && this.state.tableData.length === 0) {
             return (<div>Loading...</div>)
         } else {
-            filteredList = this.state.tableData.data.filter((rowData)=>{
-                return rowData.name.indexOf(this.state.searchValue) !== -1 ;
 
-            });
+                let _this = this;
+                filteredList = this.state.tableData.data.filter((rowData) => {
+
+                    if(this.state.flagInitial){
+                        return this.state.tableData.data
+                    }
+
+                    else if(this.state.flagSearchByName){
+                        console.log("By NAME")
+                        return rowData.name.indexOf(this.state.searchValue) !== -1;
+                    }else if(this.state.flagSearchByStartDate){
+                        return Date.parse(rowData.startDate) >= Date.parse(startDate);
+                    }else if(this.state.flagSearchByEndDate){
+                        return Date.parse(rowData.endDate) <= Date.parse(endDate);
+                    }
+
+                });
+
         }
 
         return <div className="App">
@@ -96,7 +125,7 @@ class App extends Component {
             <SearchComponent onChange={(name) => this.onChange(name)}
                              onStartDateChange={this.handleStartDate}
                              onEndDateChange={this.handleEndDate}/>
-            <TableComponent tableData = {filteredList} />
+            <TableComponent tableData={filteredList}/>
 
         </div>;
     }

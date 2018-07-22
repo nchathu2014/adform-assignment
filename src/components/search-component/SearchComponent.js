@@ -5,26 +5,26 @@ import 'react-datepicker/dist/react-datepicker.css';
 
 class SearchComponent extends Component {
 
-    constructor(props){
+    constructor(props) {
         super(props);
         this.state = {
             startDate: moment(),
-            endDate:moment()
+            endDate: moment()
         };
         //this.handleStartDate = this.handleStartDate.bind(this);
     }
 
     handleStartDate(startDate) {
-        if(startDate){
+        if (startDate) {
             this.setState({
                 startDate
             });
             this.props.onStartDateChange(startDate.format('l'));
         }
-        }
+    }
 
     handleEndDate(endDate) {
-        if(endDate){
+        if (endDate) {
             this.setState({
                 endDate
             });
@@ -33,9 +33,7 @@ class SearchComponent extends Component {
     }
 
 
-
-
-    onChange($event){
+    onChange($event) {
         this.props.onChange($event.target.value);
     }
 
@@ -43,19 +41,19 @@ class SearchComponent extends Component {
         return (
             <div className="form-inline">
                 <DatePicker
-                    selected={this.state.startDate||"ddd"}
-                    onSelect={(startDate)=>this.handleStartDate(startDate)}
+                    selected={this.state.startDate || "ddd"}
+                    onSelect={(startDate) => this.handleStartDate(startDate)}
 
-/>
+                />
                 <input type="text"
                        className="form-control"
                        id="name" style={{float: 'right'}}
-                       onChange={($event)=>this.onChange($event)}
+                       onChange={($event) => this.onChange($event)}
                        placeholder="Search By Name"/>
 
                 <DatePicker
                     selected={this.state.endDate}
-                    onSelect={(endDate)=>this.handleEndDate(endDate)}
+                    onSelect={(endDate) => this.handleEndDate(endDate)}
                 />
             </div>
         );

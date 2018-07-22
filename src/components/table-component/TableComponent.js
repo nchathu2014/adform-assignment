@@ -2,10 +2,6 @@ import React, {Component} from 'react';
 
 class TableComponent extends Component {
 
-    constructor(props) {
-        super(props);
-    }
-
     /**
      * active in-active label showing logic
      * @param startDate
@@ -35,7 +31,6 @@ class TableComponent extends Component {
         return budgetRslt;
     }
 
-
     /**
      * Render table data
      * @param list
@@ -43,7 +38,6 @@ class TableComponent extends Component {
      */
     processTableData(list) {
         const processedList = list.map((rowData, index) => {
-
             const activeStatus = this.checkActiveness(rowData.startDate, rowData.endDate);
             return (
                 <tr key={index}>
@@ -83,8 +77,7 @@ class TableComponent extends Component {
             </div>
         );
     }
-
-
+    
     /**
      * Get current date
      * @returns {string}
@@ -95,7 +88,6 @@ class TableComponent extends Component {
     }
 
     render() {
-        console.log('&&&&', this.props.tableData)
         return (
             <div>
                 {this.renderTable()}

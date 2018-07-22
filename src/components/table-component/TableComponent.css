@@ -1,14 +1,17 @@
-.active{
+/**
+TableComponent styles goes here
+ */
+.active {
     background-color: darkgreen !important;
     color: white;
 }
 
-.in-active{
+.in-active {
     background-color: red;
     color: white;
 }
 
-.table-header{
+.table-header {
     background-color: darkcyan !important;
     color: white;
 }

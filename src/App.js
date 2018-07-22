@@ -26,6 +26,9 @@ class App extends Component {
     initApp() {
         // this.renderTable = this.renderTable.bind(this);
         this.fetchDataFromAPI = this.fetchDataFromAPI.bind(this);
+        this.handleStartDate = this.handleStartDate.bind(this);
+        this.handleEndDate = this.handleEndDate.bind(this);
+
         //this.processTableData = this.processTableData.bind(this);
         //this.checkActiveness = this.checkActiveness.bind(this);
         // this.getCurrentDate = this.getCurrentDate.bind(this);
@@ -53,27 +56,46 @@ class App extends Component {
      * Callback from SearchComponent with the searched value
      * @param name
      */
-    onChange(name) {
+    onChange(name='') {
         this.setState({
             searchValue : name
         });
     }
 
+    handleStartDate(startDate){
+        console.log(startDate)
+        this.setState({
+            startDate
+        });
+    }
+
+    handleEndDate(endDate){
+        console.log(endDate)
+        this.setState({
+            endDate
+        });
+    }
+
+
     render() {
         let filteredList;
+        let startDate = this.state.startDate;
+        let endDate = this.state.endDate;
+
         if (this.state.tableData && this.state.tableData.length === 0) {
             return (<div>Loading...</div>)
         } else {
-             filteredList = this.state.tableData.data.filter((rowData)=>{
-                return rowData.name.indexOf(this.state.searchValue) !== -1
+            filteredList = this.state.tableData.data.filter((rowData)=>{
+                return rowData.name.indexOf(this.state.searchValue) !== -1 ;
+
             });
         }
 
-
-
         return <div className="App">
 
-            <SearchComponent onChange={(name) => this.onChange(name)}/>
+            <SearchComponent onChange={(name) => this.onChange(name)}
+                             onStartDateChange={this.handleStartDate}
+                             onEndDateChange={this.handleEndDate}/>
             <TableComponent tableData = {filteredList} />
 
         </div>;
